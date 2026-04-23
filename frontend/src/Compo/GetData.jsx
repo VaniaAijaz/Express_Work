@@ -13,9 +13,9 @@ export default function GetData() {
 
 
     useEffect(()=>{
-        fetch()
+        fetchData()
     },[])
-    async function fetch(){
+    async function fetchData(){
         try {
             await axios.get("http://localhost:5003/lao").
             then((a)=>{
@@ -34,7 +34,7 @@ export default function GetData() {
              await axios.delete(`http://localhost:5003/lao/${uid}`).
              then((a)=>{
                 toast.success("User Deleted Successfully")
-                fetch()
+                fetchData()
              }).catch((e)=>{
                 toast.error(e.response.data.msg)
              })        
@@ -54,7 +54,7 @@ export default function GetData() {
                 name : uname,
                 age : uage
             }).then((a)=>{
-                fetch()
+                fetchData()
                 document.querySelector(".closed").click();
                 toast.success("Record Updated Successfully")
             }).catch((e)=>{
@@ -68,7 +68,7 @@ export default function GetData() {
     data.filter((a) => a.name.toLowerCase().includes(search.toLowerCase()))
     :data
     if(sort ==="1"){
-        filtered_data =filtered_data.sort((a,b)=>a.name.localeCompare(a.name))
+        filtered_data =filtered_data.sort((a,b)=>a.name.localeCompare(b.name))
     }
     else if(sort ==="2"){
         filtered_data =filtered_data.sort((a,b)=>b.name.localeCompare(a.name))
@@ -92,9 +92,9 @@ export default function GetData() {
              onChange={(e)=> setSort(e.target.value)}>
                 <option value="">Select Sort</option>
                 <option value="1">A-Z</option>
-                <option value="1">Z-A</option>
-                <option value="1">Age Ascending</option>
-                <option value="1">Age Descending</option>
+                <option value="2">Z-A</option>
+                <option value="3">Age Ascending</option>
+                <option value="4">Age Descending</option>
                 
 
 
