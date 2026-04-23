@@ -8,6 +8,9 @@ export default function GetData() {
     let[ uname, setUName] = useState("")
     let[ uage, setUAge] = useState(0)
     let [id , setId] = useState("")
+    let [search, setSearch] = useState("")
+    let[sort,setSort] = useState("")
+
 
     useEffect(()=>{
         fetch()
@@ -61,16 +64,46 @@ export default function GetData() {
             toast.error( error)
         }
     }
-
+    var filtered_data = search ?
+    data.filter((a) => a.name.toLowerCase().includes(search.toLowerCase()))
+    :data
+    if(sort ==="1"){
+        filtered_data =filtered_data.sort((a,b)=>a.name.localeCompare(a.name))
+    }
+    else if(sort ==="2"){
+        filtered_data =filtered_data.sort((a,b)=>b.name.localeCompare(a.name))
+    }
+    else  if(sort ==="3"){
+        filtered_data = filtered_data.sort((a,b)=> a.age-b.age)
+    }
+    else  if(sort ==="4"){
+        filtered_data = filtered_data.sort((a,b)=> b.age-a.age)
+    }
 
 
   return (
     <div className='container'>
         <ToastContainer/>
         <Link className="btn btn-secondary mt-3" to="cr">Add Record</Link>
+        <div className="container">
+            <input type="text" className='form-control my-3' placeholder='Enter Name to search' value={search}
+             onChange={(e)=> setSearch(e.target.value)} />
+             <select className='form-select my-2'
+             onChange={(e)=> setSort(e.target.value)}>
+                <option value="">Select Sort</option>
+                <option value="1">A-Z</option>
+                <option value="1">Z-A</option>
+                <option value="1">Age Ascending</option>
+                <option value="1">Age Descending</option>
+                
+
+
+             </select>
+        </div>
       <div className="row">
         {
-            data.map((i)=>(
+          filtered_data.length !=0?
+            filtered_data.map((i)=>(
                 <div className="col-md-3 my-3">
                     <div class="card">
                         <div class="card-body">
@@ -89,6 +122,28 @@ export default function GetData() {
                     
                 </div>
             ))
+            
+
+            :
+            <div>
+            <div
+                class="alert alert-primary alert-dismissible fade show"
+                role="alert"
+            >
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                ></button>
+                No User Found
+            </div>
+            
+        
+            
+            </div>
+            
+
         }
 
 {/* Modal code */}
