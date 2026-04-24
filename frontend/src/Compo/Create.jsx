@@ -8,6 +8,7 @@ export default function Create() {
     let [email, setEmail] = useState("")
     let [age, setAge] = useState(0)
     let [marital, setMarital] = useState(true)
+    let [pswd,setPassword] = useState("")
 
     async function save(){
        try {
@@ -37,7 +38,9 @@ export default function Create() {
             name : name,
             email : email,
             age : age,
-            Is_Married : marital
+            Is_Married : marital,
+            password:pswd
+            
         })
         toast.success(response.data.msg)
        } catch (error) {
@@ -59,6 +62,10 @@ export default function Create() {
 
         <p>Enter Your Email</p>
         <input type="email" className="form-control my-3" onChange={(e)=>setEmail(e.target.value)} value={email}/>
+
+        <p>Enter Your Password</p>
+        <input type="password" className="form-control my-3" onChange={(e)=>setPassword(e.target.value)} value={pswd}/>
+
 
         <p>Enter Your Age</p>
         <input type="number" className="form-control my-3" onChange={(e)=>setAge(e.target.value)} value={age}/>
