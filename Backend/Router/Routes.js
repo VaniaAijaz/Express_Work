@@ -9,7 +9,7 @@ route.post("/go", saveData)
 route.get("/lao",showdata)
 route.delete("/lao/:id",delete_user);
 route.put("/lao/:id",update_user);
-route.post("login",login_user);
+route.post("/login",login_user);
 
 
 

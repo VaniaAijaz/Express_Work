@@ -13,18 +13,19 @@ export default function Login() {
     let chalo=useNavigate()
     async function login_func(){
         try {
-            if(!email || pswd){
+            if(!email || !pswd){
                 toast.error("All Fields are Required")
                 return
             }
-            let res = await axios.post(" http://localhost:5003/login",{
+            let res = await axios.post("http://localhost:5003/login",{
                 email :email,
                 password:pswd
             })
+            localStorage.setItem("user_data",JSON.stringify({"token":res.data.token,"user_info":res.data.user}))
             toast.success(res.data.msg)
-            chalo("/")
+            chalo("/show")
         } catch (error) {
-            toast.error(error.message)
+            toast.error(error.response?.data.message)
             
         }
     }
@@ -40,7 +41,7 @@ export default function Login() {
         <input type="password" className='form-control my-3' onChange={(e)=>setPassword(e.target.value)} value = {pswd} />
         <button className='btn btn-primary my-3' onClick={login_func}>Login</button>
         <br />
-        <Link to ="/hello">Create Your Account</Link>
+        <Link to ="/cr">Create Your Account</Link>
     </div>
   )
 }

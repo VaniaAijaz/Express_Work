@@ -2,6 +2,7 @@ const export_user = require("../Collection/User")
 let emailwork = require("nodemailer")
 require("dotenv").config()
 let bcy=require("bcrypt")
+let jwt = require("jsonwebtoken");
 
 let email_information = emailwork.createTransport({
     service: "gmail",
@@ -137,9 +138,11 @@ let login_user = async function(req,res){
         if(!change_password){
             return res.status(400).json({msg:"Invalid password"})
         }
+        let token = jwt.sign({id : find_email._id},process.env.KEY,{expiresIn:"1h"})
         return res.status(200).json(
             {
                 msg:"Login Succesfully",
+                token,
                 user:{
                     id : find_email._id,
                     name:find_email.name
@@ -147,7 +150,7 @@ let login_user = async function(req,res){
             }
         )
     } catch (error) {
-        return res.status(501).json({msg:error})
+        return res.status(501).json({msg:error.message})
     }
 }
 
